@@ -31,13 +31,13 @@ public class MyFrame extends JFrame {
 	JXDatePicker picker;
 	JComboBox<String> hour, minute, second, stadium;
 
-	String h[] = { "H", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
+	String h[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
 			"17", "18", "19", "20", "21", "22", "23" };
-	String m[] = { "M", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
+	String m[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
 			"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
 			"35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52",
 			"53", "54", "55", "56", "57", "58", "59" };
-	String s[] = { "S", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
+	String s[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
 			"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
 			"35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52",
 			"53", "54", "55", "56", "57", "58", "59" };
@@ -65,7 +65,7 @@ public class MyFrame extends JFrame {
 			System.out.println(e);
 		}
 
-		setTitle("MOON TRANSIT TRACKER v1.0");
+		setTitle("MOON TRANSIT TRACKER v5.2");
 
 		setSize(450, 500);
 		setLocation(100, 100);
@@ -184,7 +184,25 @@ public class MyFrame extends JFrame {
                 
                 Object selected = MODE.getSelectedItem();
                 if(!selected.toString().equals("ADD NEW STADIUM") && !selected.toString().equals("UPDATE EXISTING TIMEZONE") ) {
-                	sname.setText("");
+                	try {
+            			Class.forName("com.mysql.cj.jdbc.Driver");
+            			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stadiums", "root", "root");
+            			String query = "select * from stadiums where name = ?";
+            			PreparedStatement pst = con.prepareStatement(query);
+            			pst.setString(1, selected.toString());
+            			ResultSet set = pst.executeQuery();
+            			while (set.next()) {
+            				sname.setText(set.getString(2));
+            				salias.setText(set.getString(1));
+            				slatitude.setText(set.getString(3));
+            				slongitude.setText(set.getString(4));
+            				stimezone.setText(set.getString(5));
+            			} con.close();
+            		} catch (Exception e) {
+            			System.out.println(
+            					"\nHuh huh  <(-_-)>  Something went wrong while retrieving your stadium from database....\n");
+            			System.out.println(e);
+            		}
                 	salias.setEditable(false);
                 	sname.setEditable(false);
                 	slatitude.setEditable(false);
@@ -192,15 +210,18 @@ public class MyFrame extends JFrame {
                 	stimezone.setEditable(false);
                 } else if(selected.toString().equals("ADD NEW STADIUM")) {
                 	sname.setText("");
+                	salias.setText("");
+                	slatitude.setText("");
+                	slongitude.setText("");
+                	stimezone.setText("");
                 	salias.setEditable(true);
                 	sname.setEditable(true);
                 	slatitude.setEditable(true);
                 	slongitude.setEditable(true);
                 	stimezone.setEditable(true);
                 } else if(selected.toString().equals("UPDATE EXISTING TIMEZONE")) {
-                	sname.setText("OPTIONAL");
-                	salias.setEditable(true);
-                	sname.setEditable(true);
+                	salias.setEditable(false);
+                	sname.setEditable(false);
                 	slatitude.setEditable(false);
                 	slongitude.setEditable(false);
                 	stimezone.setEditable(true);

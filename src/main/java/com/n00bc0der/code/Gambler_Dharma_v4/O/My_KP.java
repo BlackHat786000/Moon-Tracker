@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +19,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -27,6 +28,25 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 public class My_KP {
+	
+	static String getStarCusps(String[] cusps_star, String planet, HashMap<String, String> planets_star) {
+		String result = "";
+		for(int i=1; i<=12; i++) {
+			if(cusps_star[i].equals(planet)) {
+				result += i + " ";
+			}
+		}
+		if(result != "") {
+			return result;
+		} else {
+			for(int i=1; i<=12; i++) {
+				if(cusps_star[i].equals(planets_star.get(planet.substring(0, 2)))) {
+					result += i + " ";
+				}
+			}
+			return result;
+		}
+	}
 
 	public static void main(String[] args) throws Exception {
 
@@ -56,7 +76,10 @@ public class My_KP {
 		int iminute = Integer.parseInt(minute);
 		int ihour = Integer.parseInt(hour);
 		int loop = 1;
-		int rotate = 1;
+//		int rotate = 1;
+		
+		String[] cusps_star = new String[13];
+		HashMap<String, String> planets_star = new HashMap<String, String>();
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 //												STADIUM DATABASE
@@ -146,7 +169,7 @@ public class My_KP {
 		System.setOut(o);
 
 		System.out.println(
-				"---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+				"------------------------------------------------------------------------------------------------------------------------------------------"
 						+ "");
 		System.out.println("Sports Contest Details :-\n");
 		System.out.println("Name : " + name);
@@ -155,7 +178,7 @@ public class My_KP {
 		System.out.println("Timezone : " + timezone);
 		System.out.println("Stadium : " + sname);
 		System.out.println(
-				"---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+				"------------------------------------------------------------------------------------------------------------------------------------------"
 						+ "\n\n");
 
 		Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
@@ -164,8 +187,8 @@ public class My_KP {
 		System.setProperty("webdriver.chrome.silentOutput", "true");
 		@SuppressWarnings("rawtypes")
 		DriverService.Builder serviceBuilder = new ChromeDriverService.Builder().withSilent(true);
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("user-data-dir=C:\\Users\\yadav\\AppData\\Local\\Google\\Chrome\\User Data");
+//		ChromeOptions options = new ChromeOptions();
+//		options.addArguments("user-data-dir=C:\\Users\\yadav\\AppData\\Local\\Google\\Chrome\\User Data");
 //		options.addArguments("--headless");
 		ChromeDriverService chromeDriverService = (ChromeDriverService) serviceBuilder.build();
 		chromeDriverService.sendOutputTo(new OutputStream() {
@@ -173,7 +196,7 @@ public class My_KP {
 			public void write(int b) {
 			}
 		});
-		WebDriver driver = new ChromeDriver(chromeDriverService, options);
+		WebDriver driver = new ChromeDriver(chromeDriverService);
 		WebDriverWait wait = new WebDriverWait(driver,60);
 
 		driver.get("https://www.rahasyavedicastrology.com/rva-software/");
@@ -206,13 +229,14 @@ public class My_KP {
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		System.out.println(
-				"---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+				"------------------------------------------------------------------------------------------------------------------------------------------"
 						+ "");
 		System.out.println("								The Muhurata Technique :");
 		System.out.println(
-				"---------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+				"------------------------------------------------------------------------------------------------------------------------------------------"
 						+ "");
 
+		// CUSPAL-SUB-LORDS
 		String asc_csl = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
 				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[1]/td[6]")))
 				.getText();
@@ -248,6 +272,44 @@ public class My_KP {
 				.getText();
 		String eighth_csl = driver.findElement(By.xpath(
 				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[8]/td[6]"))
+				.getText();
+		
+		// CUSPAL-STAR-LORDS
+		String asc_cnl = cusps_star[1] = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[1]/td[5]")))
+				.getText();
+		String dsc_cnl = cusps_star[7] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[7]/td[5]"))
+				.getText();
+		String sixth_cnl = cusps_star[6] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[6]/td[5]"))
+				.getText();
+		String twelfth_cnl = cusps_star[12] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[12]/td[5]"))
+				.getText();
+		String eleventh_cnl = cusps_star[11] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[11]/td[5]"))
+				.getText();
+		String fifth_cnl = cusps_star[5] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[5]/td[5]"))
+				.getText();
+		String tenth_cnl = cusps_star[10] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[10]/td[5]"))
+				.getText();
+		String fourth_cnl = cusps_star[4] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[4]/td[5]"))
+				.getText();
+		String third_cnl = cusps_star[3] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[3]/td[5]"))
+				.getText();
+		String nineth_cnl = cusps_star[9] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[9]/td[5]"))
+				.getText();
+		String second_cnl = cusps_star[2] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[2]/td[5]"))
+				.getText();
+		String eighth_cnl = cusps_star[8] = driver.findElement(By.xpath(
+				"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[1]/div/table/tbody/tr[8]/td[5]"))
 				.getText();
 
 		Multimap<Integer, String> house_view = ArrayListMultimap.create();
@@ -286,7 +348,8 @@ public class My_KP {
 		System.out.println("Rahu =>  " + Muhurata.Calculate_Muhurata_ASC(house_view, "Rahu"));
 		System.out.println("Ketu =>  " + Muhurata.Calculate_Muhurata_ASC(house_view, "Ketu"));
 		
-		System.out.println("\n\nCUSPAL-SUB-LORDS");
+		System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("CUSPAL-SUB-LORDS");
 		System.out.println("=================\n");
 		System.out.println("FAVOURABLE FOR ASCENDANT :-");
 		System.out.println("FIRST CSL - "+asc_csl);
@@ -302,11 +365,46 @@ public class My_KP {
 		System.out.println("TWELVETH CSL - "+twelfth_csl);
 		System.out.println("FOURTH CSL - "+fourth_csl);
 		System.out.println("FIFTH CSL - "+fifth_csl);
+		
+		System.out.println("\n\nCUSPAL-STAR-LORDS");
+		System.out.println("=================\n");
+		System.out.println("FAVOURABLE FOR ASCENDANT :-");
+		System.out.println("FIRST CSL - "+asc_cnl);
+		System.out.println("SECOND CSL - "+second_cnl);
+		System.out.println("THIRD CSL - "+third_cnl);
+		System.out.println("SIXTH CSL - "+sixth_cnl);
+		System.out.println("TENTH CSL - "+tenth_cnl);
+		System.out.println("ELEVENTH CSL - "+eleventh_cnl);
+		System.out.println("\nFAVOURABLE FOR DESCENDANT :-");
+		System.out.println("SEVENTH CSL - "+dsc_cnl);
+		System.out.println("EIGHTH CSL - "+eighth_cnl);
+		System.out.println("NINETH CSL - "+nineth_cnl);
+		System.out.println("TWELVETH CSL - "+twelfth_cnl);
+		System.out.println("FOURTH CSL - "+fourth_cnl);
+		System.out.println("FIFTH CSL - "+fifth_cnl);
+		
+		System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("PLANET  -  STAR  -  SUB");
+		for(int i=1; i<=9; i++) {
+			String planet = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+					"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[2]/div/table/tbody/tr["+i+"]/th")))
+					.getText();
+			String planet_star = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+					"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[2]/div/table/tbody/tr["+i+"]/td[6]")))
+					.getText();
+			String planet_sub = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+					"/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[1]/div/div[2]/div/table/tbody/tr["+i+"]/td[7]")))
+					.getText();
+			System.out.println(planet+"  -  "+planet_star+"  -  "+planet_sub);
+			
+			planets_star.put(planet.substring(0, 2), planet_star);
+		}
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
-		System.out.println("\n\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("								Initial Significators - Planet View :");
-		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
 		
 		for(int i=1; i<=9; i++) {
 		String planet = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[4]/div[2]/div[2]/div/div[2]/div/table/tbody/tr["+i+"]/th")).getText();
@@ -319,9 +417,9 @@ public class My_KP {
 		
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
-		System.out.println("\n\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("\n\n------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("								Ruling Planet Motion :");
-		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
 		
 		driver.navigate().to("https://www.rahasyavedicastrology.com/motion-chart/");
 		if(Integer.parseInt(date) < 10) { date = "0"+date; } if(Integer.parseInt(month) < 10) { month = "0"+month; }
@@ -342,7 +440,7 @@ public class My_KP {
 		imoon_sub_sub = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr[1]/td[10]")).getText();
 		iasc_sign = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr[1]/td[3]")).getText();
 		System.out.println("Date  |  Time  |  Ascendant  |  Moon Sub  |  Moon Sub Sub  |  Changes");
-		System.out.println(idate+"  |  "+itime+"  |  "+iasc_sign+"  |  "+imoon_sub+"  |  "+imoon_sub_sub+"  |  Initial Transit");
+		System.out.println(idate+"  |  "+itime+"  |  "+iasc_sign+"  |  "+imoon_sub+" - "+My_KP.getStarCusps(cusps_star, imoon_sub, planets_star)+"  |  "+imoon_sub_sub+" - "+My_KP.getStarCusps(cusps_star, imoon_sub_sub, planets_star)+"  |  Initial Transit");
 		
 		while(loop <= duration) {
 		
@@ -355,23 +453,23 @@ public class My_KP {
 			if(!cmoon_sub.equals(imoon_sub)) {
 				String cdate = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[1]")).getText();
 				String ctime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[2]")).getText();
-				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+"  |  "+cmoon_sub_sub+"  |  "+"********** MOON SUB **********");
+				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub, planets_star)+"  |  "+cmoon_sub_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub_sub, planets_star)+"  |  "+"********** MOON SUB **********");
 				imoon_sub = cmoon_sub;
 				imoon_sub_sub = cmoon_sub_sub;
 			}
 			if(!cmoon_sub_sub.equals(imoon_sub_sub) && moonss.equals("YES")) {
 				String cdate = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[1]")).getText();
 				String ctime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[2]")).getText();
-				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+"  |  "+cmoon_sub_sub+"  |  "+"moon sub sub");
+				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub, planets_star)+"  |  "+cmoon_sub_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub_sub, planets_star)+"  |  "+"moon sub sub");
 				imoon_sub_sub = cmoon_sub_sub;
 			}
-			if(!casc_sign.equals(iasc_sign)) {
-				String cdate = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[1]")).getText();
-				String ctime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[2]")).getText();
-				rotate = rotate + 1;
-				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+"  |  "+cmoon_sub_sub+"  |  "+"++++++++++ ASCENDANT ++++++++++		(Rotate to "+rotate+" house)");
-				iasc_sign = casc_sign;
-			}
+//			if(!casc_sign.equals(iasc_sign)) {
+//				String cdate = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[1]")).getText();
+//				String ctime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[2]")).getText();
+//				rotate = rotate + 1;
+//				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+"  |  "+cmoon_sub_sub+"  |  "+"ASCENDANT		(Rotate to "+rotate+" house)");
+//				iasc_sign = casc_sign;
+//			}
 			
 		}
 		
@@ -397,6 +495,10 @@ public class My_KP {
 		System.setOut(console);
 		System.out.println("\n\nKP Event Flow Report has been generated successfully. Thank you for your patience");
 		driver.quit();
+		System.out.print("\n\nPRESS ENTER TO CLOSE THE PROGRAM . . . .");
+		Scanner scan = new Scanner(System.in);
+	    scan.nextLine();
+	    scan.close();
 		
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
