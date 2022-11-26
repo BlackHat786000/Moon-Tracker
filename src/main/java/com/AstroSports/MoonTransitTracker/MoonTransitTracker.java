@@ -1,4 +1,4 @@
-package com.n00bc0der.code.Gambler_Dharma_v4.O;
+package com.AstroSports.MoonTransitTracker;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -27,7 +27,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-public class My_KP {
+public class MoonTransitTracker {
 	
 	static String getStarCusps(String[] cusps_star, String planet, HashMap<String, String> planets_star) {
 		String result = "";
@@ -440,7 +440,7 @@ public class My_KP {
 		imoon_sub_sub = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr[1]/td[10]")).getText();
 		iasc_sign = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr[1]/td[3]")).getText();
 		System.out.println("Date  |  Time  |  Ascendant  |  Moon Sub  |  Moon Sub Sub  |  Changes");
-		System.out.println(idate+"  |  "+itime+"  |  "+iasc_sign+"  |  "+imoon_sub+" - "+My_KP.getStarCusps(cusps_star, imoon_sub, planets_star)+"  |  "+imoon_sub_sub+" - "+My_KP.getStarCusps(cusps_star, imoon_sub_sub, planets_star)+"  |  Initial Transit");
+		System.out.println(idate+"  |  "+itime+"  |  "+iasc_sign+"  |  "+imoon_sub+" - "+MoonTransitTracker.getStarCusps(cusps_star, imoon_sub, planets_star)+"  |  "+imoon_sub_sub+" - "+MoonTransitTracker.getStarCusps(cusps_star, imoon_sub_sub, planets_star)+"  |  Initial Transit");
 		
 		while(loop <= duration) {
 		
@@ -453,14 +453,14 @@ public class My_KP {
 			if(!cmoon_sub.equals(imoon_sub)) {
 				String cdate = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[1]")).getText();
 				String ctime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[2]")).getText();
-				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub, planets_star)+"  |  "+cmoon_sub_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub_sub, planets_star)+"  |  "+"********** MOON SUB **********");
+				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+" - "+MoonTransitTracker.getStarCusps(cusps_star, cmoon_sub, planets_star)+"  |  "+cmoon_sub_sub+" - "+MoonTransitTracker.getStarCusps(cusps_star, cmoon_sub_sub, planets_star)+"  |  "+"********** MOON SUB **********");
 				imoon_sub = cmoon_sub;
 				imoon_sub_sub = cmoon_sub_sub;
 			}
 			if(!cmoon_sub_sub.equals(imoon_sub_sub) && moonss.equals("YES")) {
 				String cdate = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[1]")).getText();
 				String ctime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/main/article/div/div[2]/div[2]/div[2]/div/table/tbody/tr["+i+"]/td[2]")).getText();
-				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub, planets_star)+"  |  "+cmoon_sub_sub+" - "+My_KP.getStarCusps(cusps_star, cmoon_sub_sub, planets_star)+"  |  "+"moon sub sub");
+				System.out.println(cdate+"  |  "+ctime+"  |  "+casc_sign+"  |  "+cmoon_sub+" - "+MoonTransitTracker.getStarCusps(cusps_star, cmoon_sub, planets_star)+"  |  "+cmoon_sub_sub+" - "+MoonTransitTracker.getStarCusps(cusps_star, cmoon_sub_sub, planets_star)+"  |  "+"moon sub sub");
 				imoon_sub_sub = cmoon_sub_sub;
 			}
 //			if(!casc_sign.equals(iasc_sign)) {
