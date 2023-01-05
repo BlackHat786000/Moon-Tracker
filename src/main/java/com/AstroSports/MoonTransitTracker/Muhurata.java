@@ -32,7 +32,8 @@ public class Muhurata {
 							&& (Iterables.get(house_view.get(i), 1).equals("")))) {
 				if (Iterables.get(house_view.get(i), 2).contains(csl)) {
 					ASC = ASC + 4;
-				} else if (Iterables.get(house_view.get(i), 3).contains(csl)) {
+				}
+				if (Iterables.get(house_view.get(i), 3).contains(csl)) {
 					ASC = ASC + 2;
 				}
 			} else if ((i == 7 || i == 8 || i == 9 || i == 4 || i == 5 || i == 12)
@@ -40,7 +41,8 @@ public class Muhurata {
 							&& (Iterables.get(house_view.get(i), 1).equals("")))) {
 				if (Iterables.get(house_view.get(i), 2).contains(csl)) {
 					ASC = ASC - 4;
-				} else if (Iterables.get(house_view.get(i), 3).contains(csl)) {
+				}
+				if (Iterables.get(house_view.get(i), 3).contains(csl)) {
 					ASC = ASC - 2;
 				}
 			} else {
@@ -83,14 +85,16 @@ public class Muhurata {
 					&& ((Iterables.get(house_view.get(i), 0) == "") && (Iterables.get(house_view.get(i), 1) == ""))) {
 				if (Iterables.get(house_view.get(i), 2).contains(csl)) {
 					DSC = DSC - 4;
-				} else if (Iterables.get(house_view.get(i), 3).contains(csl)) {
+				}
+				if (Iterables.get(house_view.get(i), 3).contains(csl)) {
 					DSC = DSC - 2;
 				}
 			} else if ((i == 7 || i == 8 || i == 9 || i == 4 || i == 5 || i == 12)
 					&& ((Iterables.get(house_view.get(i), 0) == "") && (Iterables.get(house_view.get(i), 1) == ""))) {
 				if (Iterables.get(house_view.get(i), 2).contains(csl)) {
 					DSC = DSC + 4;
-				} else if (Iterables.get(house_view.get(i), 3).contains(csl)) {
+				}
+				if (Iterables.get(house_view.get(i), 3).contains(csl)) {
 					DSC = DSC + 2;
 				}
 			} else {

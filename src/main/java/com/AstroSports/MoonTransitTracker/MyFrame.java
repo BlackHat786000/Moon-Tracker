@@ -65,7 +65,7 @@ public class MyFrame extends JFrame {
 			System.out.println(e);
 		}
 
-		setTitle("MOON TRANSIT TRACKER v5.2");
+		setTitle("MOON TRANSIT TRACKER v6.2");
 
 		setSize(450, 500);
 		setLocation(100, 100);
